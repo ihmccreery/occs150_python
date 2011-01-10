@@ -1,0 +1,11 @@
+notes03.txt
+Notes for moving Lab 03 from Java to Python 2.6
+
+I. H. McCreery
+10 January 2010
+
+---
+
+Monte Carlo:
+
+This seems like a good time to introduce exception handling, since we're starting to talk about methods, so I put exception handling into this program.  It's certainly not necessary, though.

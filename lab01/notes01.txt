@@ -1,4 +1,4 @@
-notes.txt
+notes01.txt
 Notes for moving Lab 01 from Java to Python 2.6
 
 I. H. McCreery

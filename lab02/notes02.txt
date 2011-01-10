@@ -1,8 +1,8 @@
-notes.txt
+notes02.txt
 Notes for moving Lab 02 from Java to Python 2.6
 
 I. H. McCreery
-8 January 2010
+9 January 2010
 
 ---
 
