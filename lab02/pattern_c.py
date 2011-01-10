@@ -8,3 +8,7 @@
 x = input('Please enter an integer: ')
 
 # print pattern
+for i in range(1, x+1):
+    for j in range(i, x+1):
+        print ("{0} ".format(j)),
+    print

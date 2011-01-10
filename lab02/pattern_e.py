@@ -8,3 +8,15 @@
 x = input('Please enter an integer: ')
 
 # print pattern
+# print top line
+print '*' * (x+2)
+# print first section
+for i in range(0, x):
+    print '*'
+# print middle line
+print '*' * (x+1)
+# print second section
+for i in range(0, x):
+    print '*'
+# print bottom line
+print '*' * (x+2)

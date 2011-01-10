@@ -8,3 +8,10 @@
 x = input('Please enter an integer: ')
 
 # print pattern
+# print top
+print '*'+(' '*x)+'*'
+# print middle
+for i in range(0, x):
+    print '*'+(' '*i)+'*'+(' '*(x-i-1))+'*'
+# print bottom
+print '*'+(' '*x)+'*'
