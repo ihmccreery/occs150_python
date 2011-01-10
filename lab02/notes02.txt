@@ -47,3 +47,5 @@ Some complex string formatting going on here, not sure if that's necessary or no
 Patterns:
 
 Some funky string formatting going on here, too, but there are ways to complete these patterns that don't involve that.  See comments.
+
+I remember these seeming a bit tedious when I did them; perhaps there are too many of the same flavor.  Something to consider.
