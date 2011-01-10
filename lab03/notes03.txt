@@ -9,3 +9,17 @@ I. H. McCreery
 Monte Carlo:
 
 This seems like a good time to introduce exception handling, since we're starting to talk about methods, so I put exception handling into this program.  It's certainly not necessary, though.
+
+---
+
+Pyramid:
+
+10 January 2010, ihmccreery: waiting to get PIL working on machine so I can write a picture class.
+
+---
+
+Water Balloon Fight:
+
+The section of the lab on splash radius doesn't (as far as I can tell) actually state what the splash radius is. . . though there is mention of a target with radius 12.  This should be clarified.
+
+Seems like this could really benefit from discussion of data-types (tuples, in particular, for the coordinate system would allow the main method to call more methods which return target and balloon_hit variables of type tuple).  It also looks like the PIL's functionality makes use of tuples a lot, though this could be covered up with the new picture class.
