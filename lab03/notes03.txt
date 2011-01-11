@@ -12,9 +12,14 @@ This seems like a good time to introduce exception handling, since we're startin
 
 ---
 
+PIL:
+
+To install
+---
+
 Pyramid:
 
-10 January 2010, ihmccreery: waiting to get PIL working on machine so I can write a picture class.
+PIL seems to be up and running on my machine, though without JPEG support.  This shouldn't be a big problem, at least for now.
 
 ---
 
