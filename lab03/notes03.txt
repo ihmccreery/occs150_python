@@ -4,6 +4,12 @@ Notes for moving Lab 03 from Java to Python 2.6
 I. H. McCreery
 10 January 2010
 
+Pictures in general:
+
+It seems like PIL has enough functionality to allow students what they need to use.  It also seems like a good idea to expose students to the community aspect of development and CS, and allow them to explore the documentation for PIL rather than having us build something just for OCCS
+
+If we don't build something on top of PIL, though, we definitely need to introduce the tuple datatype before this lab.  It also allows coders the ability to return multiple values from a method, which is supremely helpful for many of the projects in this course.
+
 ---
 
 Monte Carlo:
@@ -28,3 +34,9 @@ Water Balloon Fight:
 The section of the lab on splash radius doesn't (as far as I can tell) actually state what the splash radius is. . . though there is mention of a target with radius 12.  This should be clarified.
 
 Seems like this could really benefit from discussion of data-types (tuples, in particular, for the coordinate system would allow the main method to call more methods which return target and balloon_hit variables of type tuple).  It also looks like the PIL's functionality makes use of tuples a lot, though this could be covered up with the new picture class.
+
+---
+
+Picture this:
+
+The Image and ImageDraw modules from PIL seem to have most of what we need.
