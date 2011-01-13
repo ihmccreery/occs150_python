@@ -1,0 +1,35 @@
+notes12.txt
+Notes for moving Lab 12 from Java to Python 2.6
+
+I. H. McCreery
+12 January 2010
+
+A few notes about differences:
+
+One major difference between Python and Java is that Python doesn't have any parallels to private variables.  For example, in PIL, the Image class just has size as a public variable.  See below:
+
+>>> from PIL import Image
+>>> im = Image.new('RGB', (100, 100), (127, 0, 0))
+>>>
+>>> im.size = 4
+>>> im.show()
+Traceback (most recent call last):
+...
+TypeError: 'int' object is unsubscriptable
+>>>
+>>> im.size = (100, 100)
+>>> im.show() # displays image with no problems
+>>>
+>>> im.size = (200, 200)
+>>> im.show()
+Traceback (most recent call last):
+...
+SystemError: tile cannot extend outside image
+
+Python 3 changes this slightly, allowing a user to define a property (using the @property decorator), which can then only be accessed with the @property.setter-decorated function, but Python 2 has nothing of this sort.
+
+Python does provide name mangling for identifiers that begin with '__':
+http://docs.python.org/release/2.6/tutorial/classes.html#private-variables
+http://stackoverflow.com/questions/1641219/does-python-have-private-variables-in-classes
+But, I was surprised to see that PIL doesn't even impliment this with their size variables. . .
+
