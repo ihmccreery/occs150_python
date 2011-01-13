@@ -46,3 +46,9 @@ The string-to-value conversions with ranks and suits caused me a lot of trouble,
 Variants on Deck
 
 Because Python has optional arguments, there is actually no extra functionality in BlackjackDeck.
+
+---
+
+Go Fish!
+
+Again, I looked at the Python Style Guide and noticed I was messing some stuff up.  We should revise the lab directions to impliment PEP-0008.

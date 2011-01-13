@@ -31,11 +31,14 @@ _SUITS = {
     4:'Clubs',
 }
 
+
 def InvalidRankError(Exception):
     pass
 
+
 def InvalidSuitError(Exception):
     pass
+
 
 class Card:
     """Card(rank, suit)
@@ -101,10 +104,15 @@ may also be provided:
         return self._suit
 
     def __str__(self):
-        return "{rank} of {suit}".format(rank=_RANKS[self.rank], suit=_SUITS[self.suit])
+        return "{rank} of {suit}".format(rank=_RANKS[self.rank],
+                                         suit=_SUITS[self.suit])
 
     def __repr__(self):
-        return "Card({rank}, {suit})".format(rank=self.rank, suit=self.suit)
+        return "{name}({rank}, {suit})".format(name=
+                                               self.__class__.__name__,
+                                               rank=self.rank,
+                                               suit=self.suit)
+
 
 class Deck:
     """Deck(shoes=1)
@@ -136,8 +144,10 @@ A standard deck with (default) 52 cards"""
 
     def __repr__(self):
         if self._shoes == 1:
-            return "Deck()"
-        return "Deck(shoes={shoes})".format(shoes =self._shoes)
+            return "{name}()".format(name=self.__class__.__name__)
+        return "{name}(shoes={shoes})".format(name=self.__class__.__name__,
+                                              shoes=self._shoes)
+
 
 # Variations of Deck
 
@@ -148,6 +158,7 @@ class EurcheDeck(Deck):
         for i, card in enumerate(self._stack):
             if 1 < card.rank < 9:
                 self.deal(i)
+
 
 class BlackjackDeck(Deck):
     pass
