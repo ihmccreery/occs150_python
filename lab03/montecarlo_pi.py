@@ -1,6 +1,6 @@
 # montecarlo_pi.py
 # runs a monte carlo simulation to calculate pi, and calculates the error
-# 
+#
 # I. H. McCreery
 # 10 January 2010
 
