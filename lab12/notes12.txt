@@ -59,6 +59,19 @@ Are good.  See PEP-0257
 
 ---
 
+__init__, inheritance, and super():
+
+These things work very differently in Python 2 than in Python 3.  Be particularly aware that a class must inherit object in order for super to work:
+
+	class Deck(object):
+		# code
+	
+	class BlackjackDeck(Deck):
+		def __init__():
+			super(BlackjackDeck, self).__init__()
+
+---
+
 Plans for implimentation:
 
 lab12
