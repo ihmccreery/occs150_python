@@ -55,7 +55,7 @@ One can impliment more than one class in a file, so a program might define all t
 
 Docstrings:
 
-Are good.  See PEP-0257
+Are good.  See PEP-0257.  They are also supremely useful for testing with doctest.testmod().
 
 ---
 

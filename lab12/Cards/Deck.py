@@ -21,12 +21,25 @@ class Deck(object):
     deal -- returns list of the next card(s)
     shuffle -- shuffles the deck
     size -- returns number of cards in deck
+
+    >>> Deck()
+    Deck()
     """
 
     def __init__(self):
-        """Initializer function"""
+        """Initializer function
+
+        >>> Deck()
+        Deck()
+        """
         self.stack = []
         self.populate()
+
+    def __repr__(self):
+        return "{0}()".format(self.__class__.__name__)
+
+    def __str__(self):
+        return self.__repr__
 
     def deal(self, n=1):
         """Returns first n card(s) in deck.
@@ -120,8 +133,16 @@ class BlackjackDeck(Deck):
         """
 
         super(BlackjackDeck, self).__init__()
+        self.shoes = shoes
         for i in range(shoes-1):
             self.populate()
+
+    def __repr__(self):
+        if self.shoes != 1:
+            return "{0}({1})".format(self.__class__.__name__,
+                                     self.shoes)
+        else:
+            return super(BlackjackDeck, self).__repr__()
 
 
 # Test
