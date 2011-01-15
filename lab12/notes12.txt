@@ -2,9 +2,15 @@ notes12.txt
 Notes for moving Lab 12 from Java to Python 2.6
 
 I. H. McCreery
-12 January 2010
+14 January 2010
 
-A few notes about differences:
+---
+
+General OOP in Python:
+
+---
+
+Private variables:
 
 One major difference between Python and Java is that Python doesn't have any parallels to private variables.  For example, in PIL, the Image class just has size as a public variable.  See below:
 
@@ -35,21 +41,38 @@ But, I was surprised to see that PIL doesn't even impliment this with their size
 
 ---
 
-Card and Deck
+Modules:
 
-Pretty straightforward.  It's weird not having private and public keywords to keep stuff straight, and to just assign variables in the __init__ and that's it, but that's how it goes.
-
-The string-to-value conversions with ranks and suits caused me a lot of trouble, but I think the solution implemented is pretty good.  I realized that all I have to do to change the implimentation of, for example, suits from integers to characters would just be to change the dictionary _SUITS.  Odd. . .
+Python has modules, which seem to provide functionality not easily analogous to any of Java's abilities.
 
 ---
 
-Variants on Deck
+Classes:
 
-Because Python has optional arguments, there is actually no extra functionality in BlackjackDeck.
+One can impliment more than one class in a file, so a program might define all the classes it needs inside one file.
 
 ---
 
-Go Fish!
+Docstrings:
 
-Again, I looked at the Python Style Guide and noticed I was messing some stuff up.  We should revise the lab directions to impliment PEP-0008.
+Are good.  See PEP-0257
 
+---
+
+Plans for implimentation:
+
+lab12
+	./Cards
+		__init__.py
+		Card.py
+			class Card
+			class Rank
+				dict Ranks
+			class Suit
+				dict Suits
+		Deck.py
+			class Deck
+			class EuchreDeck
+			class Blackjack Deck
+		Player.py
+			class Player
