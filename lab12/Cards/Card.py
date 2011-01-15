@@ -15,7 +15,10 @@ Traceback (most recent call last):
 ValueError: invalid argument for Suit(): 9
 """
 
-class Rank:
+# a list for importing module
+__all__ = ["Rank", "Suit", "Card"]
+
+class Rank(object):
     """The rank of a card
 
     Takes in an integer or string as long as input is valid.
@@ -124,7 +127,7 @@ class Rank:
         return self.rank == other.rank
 
 
-class Suit:
+class Suit(object):
     """The suit of a card
 
     Takes in an integer or string
@@ -220,7 +223,7 @@ class Suit:
         return self.suit == other.suit
 
 
-class Card:
+class Card(object):
     """A card with a suit and a rank.
 
     Takes in a rank value and a suit value.
@@ -271,6 +274,7 @@ class Card:
         'Four of Clubs'
         """
         return "{0} of {1}".format(self.rank, self.suit)
+
 
 # Test
 
