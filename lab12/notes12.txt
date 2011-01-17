@@ -89,3 +89,27 @@ lab12
 			class Blackjack Deck
 		Player.py
 			class Player
+
+---
+
+Deck:
+
+No need for isEmpty because Python treats 0 as False and all other numbers as True, so we can just use size.
+
+---
+
+Go Fish!
+
+Ok, now the good stuff.
+
+I defined an overarching Player class in the module I created, so I'm going to extend that rather than building up from scratch.
+
+I'm not sure we need a player_number for each player, but we'll see.
+
+I really need to learn how to use lambda functions.  I'll ask Garret about that this afternoon and see if he can help me out.
+
+Still to go:
+    game doesn't end when cards run out.
+    take that into account for players who draw
+    players need to draw 5 cards if their hand runs out!
+    write methods for human player

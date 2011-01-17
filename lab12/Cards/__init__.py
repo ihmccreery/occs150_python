@@ -3,4 +3,9 @@
 
 # The __all__ variable to specify what modules are imported in
 # >>> from Cards import *
-__all__ = []
+
+from Card import *
+from Deck import *
+from Player import *
+
+__all__ = ['Card', 'Rank', 'Suit', 'Deck', 'Player']

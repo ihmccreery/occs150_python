@@ -16,7 +16,7 @@ ValueError: invalid argument for Suit(): 9
 """
 
 # a list for importing module
-__all__ = ["Rank", "Suit", "Card"]
+__all__ = ['Rank', 'Suit', 'Card']
 
 class Rank(object):
     """The rank of a card

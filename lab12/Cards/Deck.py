@@ -6,10 +6,11 @@
 Includes classes Deck, EuchreDeck, and BlackjackDeck
 
 >>> Deck().deal()
-[Card(1, 1)]
->>> Deck().deal(3)
-[Card(1, 1), Card(2, 1), Card(3, 1)]
+Card(1, 1)
 """
+
+# a list for importing module
+__all__ = ['Deck']
 
 import random
 from Card import Rank, Suit, Card
@@ -41,22 +42,15 @@ class Deck(object):
     def __str__(self):
         return self.__repr__
 
-    def deal(self, n=1):
-        """Returns first n card(s) in deck.
+    def deal(self):
+        """Returns first card in deck.
 
-        deal([n]): if n is not specified, returns a list of 1 card.
-        If n is specified, returns a list of n cards.
+        deal(): returns 1 card.
 
         >>> Deck().deal()
-        [Card(1, 1)]
-        >>> Deck().deal(3)
-        [Card(1, 1), Card(2, 1), Card(3, 1)]
+        Card(1, 1)
         """
-
-        card_list = []
-        for i in range(n):
-            card_list.append(self.stack.pop(0))
-        return card_list
+        return self.stack.pop(0)
 
     def populate(self, replace=False):
         """Populates deck with standard 52 cards.
