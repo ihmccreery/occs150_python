@@ -63,7 +63,8 @@ class Rank(object):
             'Nine':9,
             'Ten':10,
             'Jack':11,
-            'Queen':12}
+            'Queen':12,
+            'King':13}
 
     def __init__(self, rank):
         """The initializer function
@@ -78,6 +79,8 @@ class Rank(object):
             self.rank = rank
         elif rank in self.STRS:
             self.rank = self.STRS[rank]
+        elif int(rank) in self.INTS:
+            self.rank = int(rank)
         else:
             raise ValueError("invalid argument for Rank(): "+repr(rank))
 

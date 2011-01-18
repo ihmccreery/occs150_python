@@ -106,10 +106,7 @@ I defined an overarching Player class in the module I created, so I'm going to e
 
 I'm not sure we need a player_number for each player, but we'll see.
 
-I really need to learn how to use lambda functions.  I'll ask Garret about that this afternoon and see if he can help me out.
+I really need to learn how to use lambda functions.  I'll ask Garrett about that this afternoon and see if he can help me out.
 
 Still to go:
-    game doesn't end when cards run out.
-    take that into account for players who draw
-    players need to draw 5 cards if their hand runs out!
     write methods for human player

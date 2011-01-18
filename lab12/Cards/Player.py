@@ -22,7 +22,10 @@ class Player(object):
     """Basic player class.
 
     Impliments:
-        draw -- draw the given card
+        get -- get the given card
+        draw -- draws from the given deck
+        play -- returns the given card
+        str_hand -- returns str representation of hand
     """
 
     def __init__(self, name):
@@ -56,18 +59,36 @@ class Player(object):
         """
         return str(self.name)
 
-    def draw(self, card):
-        """Draws the given card list.
+    def get(self, card):
+        """Adds the given card to hand.
 
-        draw(card_list)
+        get(card)
 
         >>> p = Player("Monty")
-        >>> p.draw(Card.Card(5, 2))
+        >>> p.get(Card.Card(5, 2))
         >>> p.hand
         [Card(5, 2)]
         """
         assert isinstance(card, Card.Card)
         self.hand.append(card)
+
+    def draw(self, deck, n=1):
+        """Draws n cards from the given deck.
+
+        draw(deck)
+
+        If there are no more cards in the deck, prints a message
+        and quits."""
+        drawn = 0
+        for i in range(n):
+            try:
+                self.get(deck.deal())
+                drawn += 1
+            except IndexError:
+                print "There are no more cards in the deck."
+                if drawn > 0:
+                    print "{0} drew {1} cards.".format(self.name, drawn)
+                break
 
     def play(self, card):
         """Plays the given card.
