@@ -11,7 +11,7 @@ Must have PIL installed on Python path or otherwise accessible in working
 directory.
 """
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageColor
 
 class Picture(object):
     """A picture object
@@ -44,12 +44,12 @@ class Picture(object):
 
     def __init__(self, width, height, bg_color='white'):
 
-        self.penX = 0.0
-        self.penY = 0.0
-        self.penWidth = 1 #for the drawline method, this has to be an int
-        self.penUp = False
-        self.penDirection = 0.0
-        self.penColor = "black"
+        self._penX = 0
+        self._penY = 0
+        self._penWidth = 1 #for the drawline method, this has to be an int
+        self._penUp = False
+        self._penDirection = 0.0
+        self._penColor = "black"
 
         # self.im represents the drawing surface
         self.im = Image.new('RGB', (width, height), bg_color)
@@ -57,10 +57,10 @@ class Picture(object):
         #it seems that we have to initialize a separate imagedraw item to draw
         self.draw = ImageDraw.Draw(self.im)
 
-    def getWidth(self):
+    def get_width(self):
         return self.im.size[0]
 
-    def getHeight(self):
+    def get_height(self):
         return self.im.size[1]
 
     def close(self):
@@ -84,11 +84,11 @@ class Picture(object):
         """
 
     """This may be the only necessary getColor method."""
-    def getPixelColor(self, x, y):
+    def get_pixel_color(self, x, y):
         #returns a tuple with (R, G, B) values at (x, y)
         return self.im.getpixel((x,y))
 
-    def setPixelRed(self, x, y, r):
+    def set_pixel_red(self, x, y, r):
         """Sets the red value of (x, y) to the given value.
         Leaves other values alone"""
 
@@ -96,7 +96,7 @@ class Picture(object):
         newColor = (r, color[1], color[2])
         self.im.putpixel((x, y), newColor)
 
-    def setPixelGreen(self, x, y, g):
+    def set_pixel_green(self, x, y, g):
         """Sets the green value of (x, y) to the given value.
         Leaves other values alone"""
 
@@ -104,7 +104,7 @@ class Picture(object):
         newColor = (color[0], g, color[2])
         self.im.putpixel((x, y), newColor)
 
-    def setPixelBlue(self, x, y, b):
+    def set_pixel_blue(self, x, y, b):
         """Sets the blue value of (x, y) to the given value.
         Leaves other values alone"""
 
@@ -113,18 +113,18 @@ class Picture(object):
         self.im.putpixel((x, y), newColor)
 
 
-    def setPixelColor(self, x, y, r, g, b):
+    def set_pixel_color(self, x, y, r, g, b):
         """Sets the r, g, and b values of (x, y) to the given values."""
         color = (r, g, b)
         self.im.putpixel((x, y), color)
 
-    def writeFile(self, S):
+    def write_file(self, S):
         #we should figure out what kind of filetypes this supports, .bmp works
         """S must be a string describing the filename the image should
         be saved as."""
         self.im.save(S)
 
-    def errorManagement(self, f):   #not sure if this is necessary
+    def error_management(self, f):   #not sure if this is necessary
         pass
 
 
@@ -135,114 +135,123 @@ class Picture(object):
     in other words you can't say colors[0] = r, because tuples are immutable. This
     tells me that maybe we'll need individual methods to set each component color."""
     
-    def setPenColor(self, color):
+    def set_pen_color(self, color):
         """Color should be a string in any of the formats described earlier."""
-        self.penColor = color
+        color = ImageColor.getrgb(color)
+        self._penColor = color
 
-    def getPenColor(self):
-        return self.penColor
+    def get_pen_color(self):
+        """Returns pen color as an RGB tuple"""
+        return self._penColor
     
-    def setPenWidth(self, penWidth):
+    def set_pen_width(self, penWidth):
         #penWidth should be an int
-        self.penWidth = penWidth
+        self._penWidth = penWidth
 
-    def getPenWidth(self):
-        return self.penWidth
+    def get_pen_width(self):
+        return self._penWidth
+    
+    def set_pen_red(self, r):
+        newColor = (r, _penColor[1], _penColor[2])
+        im.set_pen_color(newColor)
 
-    """I don't think we need these:
+    def set_pen_green(self, g):
+        newColor = (_penColor[0], g, _penColor[2])
+        im.set_pen_color(newColor)
 
-    def getPenRed(self):    
+    def set_pen_blue(self, b):
+        newColor = (_penColor[0], _penColor[1], b)
+        im.set_pen_color(newColor)
+
+
+    def draw_line(self, x1, y1, x2, y2):
+        """Draws a line from (x1, y1) to (x2, y2) with the current pen color and width."""
+        self.draw.line((x1, y1, x2, y2), fill = self._penColor, width = self._penWidth)
+
+    def draw_line_to(self, x, y):
+        """Draws a line from the current position to (x,y) with the current pen color and width."""
+        self.draw.line((_penX, _penY, x, y), fill = self._penColor, width = self._penWidth)
+
+    def draw_circle(self, x, y, radius):
+        """Draws a circle at (x, y) with the given radius with the current pen color."""
+        self.draw.ellipse((x-radius, y-radius, x+radius+1, y+radius+1), outline=self._penColor)
+
+    def draw_circle_fill(self, x, y, radius):
+        """Draws a circle at (x, y) with the given radius filled with the current pen color."""
+        self.draw.ellipse((x-radius, y-radius, x+radius+1, y+radius+1), fill=self._penColor, outline=self._penColor)
+
+    def draw_ellipse(self, x, y, minor, major):
+        """Draws an ellipse at (x, y) with the given minor and major axes with the current pen color."""
+        self.draw.ellipse((x-minor, y-major, x+minor, y+major), outline=self._penColor)
+
+    def draw_ellipse_fill(self, x, y, minor, major):
+        """Draws an ellipse at (x, y) with the given minor and major axes filled with the current pen color."""
+        self.draw.ellipse((x-minor, y-major, x+minor, y+major), fill=self._penColor, outline=self._penColor)
+
+    def draw_rect(self, x, y, w, h):
+        """Draws a rectangle with top left corner (x, y) of width w and height h in the current pen color."""
+        self.draw.rectangle((x, y, x+h, y+h), outline=self._penColor)
+
+    def draw_rect_fill(self, x, y, w, h):
+        """Draws a rectangle with top left corner (x, y) of width w and height h filled with the current pen color."""
+        self.draw.rectangle((x, y, x+h, y+h), fill=self._penColor, outline=self._penColor)
+
+    def draw_pixel(self, x, y):
+        """Draws a pixel at point (x, y) with the current pen color."""
+        self.draw.point((x, y), fill=self._penColor)
+
+    """Not really sure what these pen up things are for:
+    def set_pen_up(self):      
         pass
 
-    def getPenGreen(self):
+    def set_pen_down(self): 
         pass
 
-    def getPenBlue(self):
+    def is_pen_up(self):
         pass
-        
-        """
-    """These may be hard to implement, since we're allowing the pen to be
-    either in RGB format, simple color name format, or any of the others.
-    Maybe we should just specify that this only works if your pen is in RGB
-    format. I'm unclear as to how we should implement the color variable of
-    the pen"""
-    def setPenRed(self, r):
-        pass
+    """
 
-    def setPenGreen(self, g):
-        pass
+    def set_x(self, x):
+        """Sets the pen's x coordinate to x."""
+        self._penX = x
 
-    def setPenBlue(self, b):
-        pass
+    def set_y(self, y):
+        """Sets the pen's y coordinate to y."""
+        self._penY = y
 
-    def setPenColor(self, r, g, b):
-        pass
+    def get_x(self):
+        """Returns the current x coordinate of the pen."""
+        return self._penX
 
-    def drawLine(self, x1, y1, x2, y2):
-        self.draw.line((x1, y1, x2, y2), fill = self.penColor, width = self.penWidth)
+    def get_y(self):
+        """Returns the current y coordinate of the pen."""
+        return self._penY
 
-    def drawLineTo(self, x, y):
-        pass
+    def set_position(self, x, y):
+        """Sets the coordinates of the pen to (x, y)."""
+        self._penX = x
+        self._penY = y
 
-    def drawCircle(self, x, y, radius):
-        pass
-
-    def drawCircleFill(self, x, y, radius):
-        pass
-
-    def drawEllipse(self, x, y, minor, major):
-        pass
-
-    def drawEllipseFill(self, x, y, minor, major):
-        pass
-
-    def drawRect(self, x, y, w, h):
-        pass
-
-    def drawRectFill(self, x, y, w, h):
-        pass
-
-    def drawPixel(self, x, y):
-        pass
-
-    def setPenUp(self): #not entirely sure what this is for
-        pass
-
-    def setPenDown(self):   #this either
-        pass
-
-    def isPenUp(self):
-        pass
-
-    def setX(self, x):
-        pass
-
-    def setY(self, y):
-        pass
-
-    def getX(self):
-        pass
-
-    def getY(self):
-        pass
-
-    def setPosition(self, x, y):
-        pass
-
-    def setDirection(self, d):
-        pass
+    def set_direction(self, d):
+        """Sets the pen's direction to d."""
+        self._penDirection = d
 
     def rotate(self, d):
+        """Rotates the current pen direction by d degrees."""
+        self._penDirection += d
+
+    def get_direction(self):
+        """Returns the current pen direction."""
+        return self._penDirection
+
+    def draw_forward(self, dist):
         pass
 
-    def getDirection(self):
-        pass
-
-    def drawForward(self, dist):
-        pass
-
-    def fillPoly(self, X, Y, n):    #X and Y will probably have to be tuples
-        pass
+    def fill_poly(self, coord_list):    #I'm not sure this is working correctly.
+        """This draws a polygon, using coord_list, which is a tuple of tuples. In other words, you pass in a
+        tuple filled with all the (x,y) coordinates you want for the vertices of your polygon. This will draw
+        that polygon filled with the current pen color."""
+        self.draw.polygon(coord_list, outline=self._penColor, fill=self._penColor)
 
     #the rest of the Picture class is for mouse movements, and key pressing
 
