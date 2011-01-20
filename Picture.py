@@ -11,7 +11,7 @@ Must have PIL installed on Python path or otherwise accessible in working
 directory.
 """
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 class Picture(object):
     """A picture object
@@ -46,13 +46,16 @@ class Picture(object):
 
         self.penX = 0.0
         self.penY = 0.0
-        self.penWidth = 1.0
+        self.penWidth = 1 #for the drawline method, this has to be an int
         self.penUp = False
         self.penDirection = 0.0
         self.penColor = "black"
 
         # self.im represents the drawing surface
-        self.im = Image.new('RGB', width, height, bgcolor)
+        self.im = Image.new('RGB', (width, height), bg_color)
+
+        #it seems that we have to initialize a separate imagedraw item to draw
+        self.draw = ImageDraw.Draw(self.im)
 
     def getWidth(self):
         return self.im.size[0]
@@ -64,64 +67,121 @@ class Picture(object):
         # This is probably something we'll need to impliment in Tkinter
         pass
 
+    """These get color methods may not be necessary:
+
     def getPixelRed(self, x, y):
-        """Returns an integer (0-255), the red value at (x, y)."""
+        Returns an integer (0-255), the red value at (x, y).
         return self.im.getpixel((x,y))[0]
 
     def getPixelGreen(self, x, y):
-        """Returns an integer (0-255), the green value at (x, y)."""
+        Returns an integer (0-255), the green value at (x, y).
         return self.im.getpixel((x,y))[1]
 
     def getPixelBlue(self, x, y):
-        """Returns an integer (0-255), the blue value at (x, y)."""
+        Returns an integer (0-255), the blue value at (x, y).
         return self.im.getpixel((x,y))[2]
+        
+        """
+
+    """This may be the only necessary getColor method."""
+    def getPixelColor(self, x, y):
+        #returns a tuple with (R, G, B) values at (x, y)
+        return self.im.getpixel((x,y))
 
     def setPixelRed(self, x, y, r):
         """Sets the red value of (x, y) to the given value.
         Leaves other values alone"""
 
         color = self.im.getpixel((x, y))
-        color[0] = r
-        self.im.putpixel((x, y), color)
+        newColor = (r, color[1], color[2])
+        self.im.putpixel((x, y), newColor)
 
     def setPixelGreen(self, x, y, g):
         """Sets the green value of (x, y) to the given value.
         Leaves other values alone"""
 
         color = self.im.getpixel((x, y))
-        color[1] = g
-        self.im.putpixel((x, y), color)
+        newColor = (color[0], g, color[2])
+        self.im.putpixel((x, y), newColor)
 
     def setPixelBlue(self, x, y, b):
         """Sets the blue value of (x, y) to the given value.
         Leaves other values alone"""
 
         color = self.im.getpixel((x, y))
-        color[2] = b
-        self.im.putpixel((x, y), color)
+        newColor = (color[0], color[1], b)
+        self.im.putpixel((x, y), newColor)
 
-    def getPixelColor(self, x, y):
-        pass
 
     def setPixelColor(self, x, y, r, g, b):
-        pass
+        """Sets the r, g, and b values of (x, y) to the given values."""
+        color = (r, g, b)
+        self.im.putpixel((x, y), color)
 
     def writeFile(self, S):
-        pass
+        #we should figure out what kind of filetypes this supports, .bmp works
+        """S must be a string describing the filename the image should
+        be saved as."""
+        self.im.save(S)
 
     def errorManagement(self, f):   #not sure if this is necessary
         pass
 
-    def setPenColor(self, c):   #C is a color, we could also use RGB
-        pass
+
+    """I'm not so sure about how to deal with colors, since we have tuples here.
+    My thought is that we need only one 'getColor' method, because we can just
+    get the tuple that way and choose with component we want. However, setting
+    the colors is a little trickier because tuples don't allow you to assign values,
+    in other words you can't say colors[0] = r, because tuples are immutable. This
+    tells me that maybe we'll need individual methods to set each component color."""
+    
+    def setPenColor(self, color):
+        """Color should be a string in any of the formats described earlier."""
+        self.penColor = color
 
     def getPenColor(self):
+        return self.penColor
+    
+    def setPenWidth(self, penWidth):
+        #penWidth should be an int
+        self.penWidth = penWidth
+
+    def getPenWidth(self):
+        return self.penWidth
+
+    """I don't think we need these:
+
+    def getPenRed(self):    
+        pass
+
+    def getPenGreen(self):
+        pass
+
+    def getPenBlue(self):
+        pass
+        
+        """
+    """These may be hard to implement, since we're allowing the pen to be
+    either in RGB format, simple color name format, or any of the others.
+    Maybe we should just specify that this only works if your pen is in RGB
+    format. I'm unclear as to how we should implement the color variable of
+    the pen"""
+    def setPenRed(self, r):
+        pass
+
+    def setPenGreen(self, g):
+        pass
+
+    def setPenBlue(self, b):
+        pass
+
+    def setPenColor(self, r, g, b):
         pass
 
     def drawLine(self, x1, y1, x2, y2):
-        pass
+        self.draw.line((x1, y1, x2, y2), fill = self.penColor, width = self.penWidth)
 
-    def drawLine(self, x, y):
+    def drawLineTo(self, x, y):
         pass
 
     def drawCircle(self, x, y, radius):
@@ -182,33 +242,6 @@ class Picture(object):
         pass
 
     def fillPoly(self, X, Y, n):    #X and Y will probably have to be tuples
-        pass
-
-    def setPenWidth(self, pWidth):
-        pass
-
-    def getPenWidth(self):
-        pass
-
-    def getPenRed(self):    #not sure if we need these
-        pass
-
-    def getPenGreen(self):
-        pass
-
-    def getPenBlue(self):
-        pass
-
-    def setPenRed(self, r):
-        pass
-
-    def setPenGreen(self, g):
-        pass
-
-    def setPenBlue(self, b):
-        pass
-
-    def setPenColor(self, r, g, b):
         pass
 
     #the rest of the Picture class is for mouse movements, and key pressing
