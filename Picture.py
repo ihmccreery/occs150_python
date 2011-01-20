@@ -61,20 +61,28 @@ class Picture(object):
         # self.draw represents drawing capabilities
         self.draw = ImageDraw.Draw(self.im)
 
+    def write_file(self, name):
+        """Saves to a file.  name is a string."""
+        self.im.save(name)
+
+    def close(self):
+        # This is probably something we'll need to impliment in Tkinter
+        pass
+
     def get_width(self):
         return self.im.size[0]
 
     def get_height(self):
         return self.im.size[1]
 
-    def close(self):
-        # This is probably something we'll need to impliment in Tkinter
-        pass
 
     # The following methods' implimentations are slightly different
     # because of Python's tuple capabilities.  Rather than taking a
     # separate argument for each value, they are taken and returned as
     # tuples.
+
+
+    # Pixel methods
 
     def get_pixel_color(self, xy):
         """Returns the pixel color of given pixel in the form (r, g, b)
@@ -86,56 +94,8 @@ class Picture(object):
         where r, g, and b are integers (0-255)."""
         self.im.setpixel(xy, color)
 
-    # I think the following methods are really not helpful since Python
-    # has tuples, enabling us to just use getPixelColor and
-    # setPixelColor freely.
 
-    # If we decide not to delete these, we should change the x, y to xy
-    # tuples.
-
-    def getPixelRed(self, x, y):
-        """Returns an integer (0-255), the red value at (x, y)."""
-        return self.im.getpixel((x,y))[0]
-
-    def getPixelGreen(self, x, y):
-        """Returns an integer (0-255), the green value at (x, y)."""
-        return self.im.getpixel((x,y))[1]
-
-    def getPixelBlue(self, x, y):
-        """Returns an integer (0-255), the blue value at (x, y)."""
-        return self.im.getpixel((x,y))[2]
-
-    def setPixelRed(self, x, y, r):
-        """Sets the red value of (x, y) to the given value.
-        Leaves other values alone"""
-
-        color = self.im.getpixel((x, y))
-        color[0] = r
-        self.im.putpixel((x, y), color)
-
-    def setPixelGreen(self, x, y, g):
-        """Sets the green value of (x, y) to the given value.
-        Leaves other values alone"""
-
-        color = self.im.getpixel((x, y))
-        color[1] = g
-        self.im.putpixel((x, y), color)
-
-    def setPixelBlue(self, x, y, b):
-        """Sets the blue value of (x, y) to the given value.
-        Leaves other values alone"""
-
-        color = self.im.getpixel((x, y))
-        color[2] = b
-        self.im.putpixel((x, y), color)
-
-    # End unhelpful pixel-based methods
-
-    def write_file(self, name):
-        """Saves to a file.  name is a string."""
-        self.im.save(name)
-
-    # Methods having to do with the pen
+    # Pen methods
 
     def set_pen_xy(self, xy):
         """Sets pen position to xy.  xy is a tuple of two ints"""
@@ -204,6 +164,7 @@ class Picture(object):
     def drawForward(self, dist):
         pass
 
+
     # Shape drawing methods
 
     def drawCircle(self, x, y, radius):
@@ -226,28 +187,5 @@ class Picture(object):
 
     def fillPoly(self, X, Y, n):    #X and Y will probably have to be tuples
         pass
-
-    # As before, since colors are just tuples, these methods don't seem
-    # necessary to me.  - I. H.
-
-    def getPenRed(self):    #not sure if we need these
-        pass
-
-    def getPenGreen(self):
-        pass
-
-    def getPenBlue(self):
-        pass
-
-    def setPenRed(self, r):
-        pass
-
-    def setPenGreen(self, g):
-        pass
-
-    def setPenBlue(self, b):
-        pass
-
-    # End unecessary methods.
 
     #the rest of the Picture class is for mouse movements, and key pressing
