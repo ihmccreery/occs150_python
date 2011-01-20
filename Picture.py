@@ -11,14 +11,15 @@ Must have PIL installed on Python path or otherwise accessible in working
 directory.
 """
 
+import math
 from PIL import Image, ImageColor, ImageDraw
 
 class Picture(object):
     """A picture object
 
-    Picture(width, height, bg_color='#ffffff') -> Picture object
+    Picture(size, bg_color='#ffffff') -> Picture object
 
-    width and height must be integers.
+    size is a tuple of (width, height) (must be integers).
 
     bg_color is optional, defaults to white
 
@@ -47,16 +48,16 @@ class Picture(object):
         red.
     """
 
-    def __init__(self, width, height, bg_color='white'):
+    def __init__(self, size, bg_color='white'):
 
         self.pen_xy = (0, 0)
         self.pen_width = 1.0
         # self.pen_Up = False # what does this do?
-        self.pen_dir = 0.0
+        self.pen_direction = 0.0
         self.pen_color = (0, 0, 0)
 
         # self.im represents canvas
-        self.im = Image.new('RGB', width, height, bgcolor)
+        self.im = Image.new('RGB', size, bg_color)
 
         # self.draw represents drawing capabilities
         self.draw = ImageDraw.Draw(self.im)
@@ -65,15 +66,20 @@ class Picture(object):
         """Saves to a file.  name is a string."""
         self.im.save(name)
 
+    def show(self):
+        """Shows image in default external editor."""
+        self.im.show()
+
     def close(self):
         # This is probably something we'll need to impliment in Tkinter
         pass
 
-    def get_width(self):
-        return self.im.size[0]
 
-    def get_height(self):
-        return self.im.size[1]
+    # Rather than defining separate get_x and get_y, just return tuple
+    # with two values
+
+    def get_size(self):
+        return self.im.size
 
 
     # The following methods' implimentations are slightly different
@@ -92,7 +98,7 @@ class Picture(object):
     def set_pixel_color(self, xy, color):
         """Sets the pixel color of given pixel in the form (r, g, b)
         where r, g, and b are integers (0-255)."""
-        self.im.setpixel(xy, color)
+        self.im.putpixel(xy, color)
 
 
     # Pen methods
@@ -114,16 +120,16 @@ class Picture(object):
     def get_pen_color(self):
         return self.pen_color
 
-    def set_pen_dir(self, d):
+    def set_pen_direction(self, d):
         """Sets the pen direction.  Takes a number as an argument."""
-        self.pen_dir = d
+        self.pen_direction = d
 
     def pen_rotate(self, d):
         """Rotates the pen dir.  Takes a number as an argument."""
-        self.pen_dir += d
+        self.pen_direction += d
 
-    def get_pen_dir(self):
-        return self.pen_dir
+    def get_pen_direction(self):
+        return self.pen_direction
 
     def set_pen_width(self, w):
         assert w > 0, "Width must be greater than 0"
@@ -141,28 +147,43 @@ class Picture(object):
         # position
         if not xy2:
             xy2 = xy1
-            xy1 = self.pen_xy
+            xy1 = self.get_pen_xy
 
         # if no color is given, set color to current pen color
-        if not color:
-            color = self.pen_color
+        if color:
+            self.set_pen_color(color)
 
         # if no width is given, set width to current pen width
-        if not width:
-            width = self.pen_width
+        if width:
+            self.set_pen_width(width)
 
         # execute draw_line from 1 to 2
         # width is divided by 2 to correct for problem with PIL.
         # should be changed when PIL 1.6 comes out
-        self.draw.line([xy1, xy2], color=color, width=width/2)
+        self.draw.line([xy1, xy2], color=self.get_pen_color(), width=self.get_pen_width()/2)
 
         # set attributes accordingly
         self.set_pen_xy(xy2)
-        self.set_pen_color(color)
-        self.set_pen_width(width)
 
-    def drawForward(self, dist):
-        pass
+    def drawForward(self, dist, xy=None, color=None, width=None, direction=None):
+        """Draws a line from current position of length dist and at angle
+        direction."""
+
+        # if no xy is given, orient so line will be drawn from current
+        # position
+        if xy:
+            self.set_pen_xy(xy)
+
+        # if no direction is given, set direction to current pen
+        # direction
+        if direction:
+            self.set_pen_direction(direction)
+
+        xy2 = (xy[0], xy[1])
+        xy2[0] += dist * math.sin(self.pen_direction)
+        xy2[1] += dist * math.cos(self.pen_direction)
+
+        self.draw_line(xy, xy2, color, width)
 
 
     # Shape drawing methods
