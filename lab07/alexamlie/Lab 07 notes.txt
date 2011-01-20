@@ -1,0 +1,5 @@
+Lab 07 Notes
+
+RecNum -- This is almost exactly the same as the Java solution. The only difference is how the print statements work, where you can have a marker for your numbers. I really like that feature.
+
+RecStr -- My solution for the backwards printing is different from the one I wrote for the Java program, but my Java program actually didn't use recursion, so this is a better solution. The only other differences were things I didn't yet know, like that you can return a new value (instead of creating new variables and then returning those, just return the creation statement). So I have a cleaner solution now than the Java. Subjectively, I think the Python version of this is somewhat easier to read, but that's just me. 

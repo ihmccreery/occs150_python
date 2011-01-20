@@ -1,0 +1,1 @@
+Lab04 notesStacker – This one is strange because the formatting of spaces in python. It seems that one space does not take up the same width as one ‘*’, so it is hard to get the spaces to consistently take up the same width. I’m sure there is a pretty simple fix, but I couldn’t figure it out. 

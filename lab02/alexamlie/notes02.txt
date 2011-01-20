@@ -1,0 +1,51 @@
+notes02.txt
+Notes for moving Lab 02 from Java to Python 2.6
+
+I. H. McCreery
+9 January 2010
+
+---
+
+Time Warp:
+
+Program Outline
+
+# SecondConverter.java
+# Translate seconds into a more readable hours, minutes, and seconds.
+# 
+# <your name>
+# <today's date>
+
+# Explain via console output what this program does.
+# Assign variable sec to user's number of seconds from the console.
+# (You may want to look back at lab01 on how to get user input.)
+# Compute and assign hours, mins, and seconds from the user's input.
+# Print the results.
+
+Multi-line strings are written with triple quotes.
+
+This program will actually impliment input() rather than raw_input() because we're taking in a number rather than a string.  This will probably require some explaining, maybe an arithmetic example.
+
+---
+
+Loopin':
+
+An equivalent to the final keyword does not exist in Python.  Python leaves it up to coders to follow the convention of not changing variables that are uppercase.
+
+Also, for loops work differently in Python than in Java: they iterate over iterables, rather than taking in expressions to evaluate/execute.  So, we use the range(x, y) function, which generates a list of integers from x up to but not including y, passed through the reversed() function.
+
+Since these programs require integers the user puts in, it might make sense to cover exception handling here.  While it's not commonly taught early on in a course, as far as I can tell, it seems to be a pretty vital and useful part of Python.
+
+---
+
+Interesting:
+
+Some complex string formatting going on here, not sure if that's necessary or not.
+
+---
+
+Patterns:
+
+Some funky string formatting going on here, too, but there are ways to complete these patterns that don't involve that.  See comments.
+
+I remember these seeming a bit tedious when I did them; perhaps there are too many of the same flavor.  Something to consider.
