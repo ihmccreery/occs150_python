@@ -11,7 +11,7 @@ Must have PIL installed on Python path or otherwise accessible in working
 directory.
 """
 
-from PIL import Image
+from PIL import Image, ImageColor, ImageDraw
 
 class Picture(object):
     """A picture object
@@ -20,21 +20,26 @@ class Picture(object):
 
     width and height must be integers.
 
-    bg_color is optional, defaults to white, and supports the following
-    color formats:
+    bg_color is optional, defaults to white
+
+    all color arguments support the following color formats:
+
        -Hexadecimal color specifiers, given as "#rgb" or "#rrggbb". For
         example, "#ff0000" specifies pure red.
+
        -RGB functions, given as "rgb(red, green, blue)" where the colour
         values are integers in the range 0 to 255. Alternatively, the
         color values can be given as three percentages (0% to 100%). For
         example, "rgb(255,0,0)" and "rgb(100%,0%,0%)" both specify pure
         red.
+
        -Hue-Saturation-Lightness (HSL) functions, given as "hsl(hue,
         saturation%, lightness%)" where hue is the colour given as an
         angle between 0 and 360 (red=0, green=120, blue=240), saturation
         is a value between 0% and 100% (gray=0%, full color=100%), and
         lightness is a value between 0% and 100% (black=0%, normal=50%,
         white=100%). For example, "hsl(0,100%,50%)" is pure red.
+
        -Common HTML colour names. The ImageDraw provides some 140 standard
         colour names, based on the colors supported by the X Window system
         and most web browsers. Colour names are case insensitive, and may
@@ -44,25 +49,49 @@ class Picture(object):
 
     def __init__(self, width, height, bg_color='white'):
 
-        self.penX = 0.0
-        self.penY = 0.0
-        self.penWidth = 1.0
-        self.penUp = False
-        self.penDirection = 0.0
-        self.penColor = "black"
+        self.pen_xy = (0, 0)
+        self.pen_width = 1.0
+        # self.pen_Up = False # what does this do?
+        self.pen_dir = 0.0
+        self.pen_color = (0, 0, 0)
 
-        # self.im represents the drawing surface
+        # self.im represents canvas
         self.im = Image.new('RGB', width, height, bgcolor)
 
-    def getWidth(self):
+        # self.draw represents drawing capabilities
+        self.draw = ImageDraw.Draw(self.im)
+
+    def get_width(self):
         return self.im.size[0]
 
-    def getHeight(self):
+    def get_height(self):
         return self.im.size[1]
 
     def close(self):
         # This is probably something we'll need to impliment in Tkinter
         pass
+
+    # The following methods' implimentations are slightly different
+    # because of Python's tuple capabilities.  Rather than taking a
+    # separate argument for each value, they are taken and returned as
+    # tuples.
+
+    def get_pixel_color(self, xy):
+        """Returns the pixel color of given pixel in the form (r, g, b)
+        where r, g, and b are integers (0-255)."""
+        return self.im.getpixel(xy)
+
+    def set_pixel_color(self, xy, color):
+        """Sets the pixel color of given pixel in the form (r, g, b)
+        where r, g, and b are integers (0-255)."""
+        self.im.setpixel(xy, color)
+
+    # I think the following methods are really not helpful since Python
+    # has tuples, enabling us to just use getPixelColor and
+    # setPixelColor freely.
+
+    # If we decide not to delete these, we should change the x, y to xy
+    # tuples.
 
     def getPixelRed(self, x, y):
         """Returns an integer (0-255), the red value at (x, y)."""
@@ -100,29 +129,82 @@ class Picture(object):
         color[2] = b
         self.im.putpixel((x, y), color)
 
-    def getPixelColor(self, x, y):
+    # End unhelpful pixel-based methods
+
+    def write_file(self, name):
+        """Saves to a file.  name is a string."""
+        self.im.save(name)
+
+    # Methods having to do with the pen
+
+    def set_pen_xy(self, xy):
+        """Sets pen position to xy.  xy is a tuple of two ints"""
+        # perhaps we should assert more restrictions here?
+        self.pen_xy = xy
+
+    def get_pen_xy(self):
+        """Returns current pen position (a tuple of 2 ints)."""
+        return self.pen_xy
+
+    def set_pen_color(self, color):
+        """Sets the pen color.  Takes the usual types of color args."""
+        color = ImageColor.getrgb(color) # converts to standard tuple
+        self.pen_color = color
+
+    def get_pen_color(self):
+        return self.pen_color
+
+    def set_pen_dir(self, d):
+        """Sets the pen direction.  Takes a number as an argument."""
+        self.pen_dir = d
+
+    def pen_rotate(self, d):
+        """Rotates the pen dir.  Takes a number as an argument."""
+        self.pen_dir += d
+
+    def get_pen_dir(self):
+        return self.pen_dir
+
+    def set_pen_width(self, w):
+        assert w > 0, "Width must be greater than 0"
+        self.pen_width = w
+
+    def get_pen_width(self):
+        return self.pen_width
+
+    def draw_line(self, xy1, xy2=None, color=None, width=None):
+        """Draws a line from xy1 to xy2, or from current pen position to
+        xy1 if no xy2 is given, and sets pen position to ending point and
+        sets pen color to color"""
+
+        # if no xy2 is given, orient so line will be drawn from current
+        # position
+        if not xy2:
+            xy2 = xy1
+            xy1 = self.pen_xy
+
+        # if no color is given, set color to current pen color
+        if not color:
+            color = self.pen_color
+
+        # if no width is given, set width to current pen width
+        if not width:
+            width = self.pen_width
+
+        # execute draw_line from 1 to 2
+        # width is divided by 2 to correct for problem with PIL.
+        # should be changed when PIL 1.6 comes out
+        self.draw.line([xy1, xy2], color=color, width=width/2)
+
+        # set attributes accordingly
+        self.set_pen_xy(xy2)
+        self.set_pen_color(color)
+        self.set_pen_width(width)
+
+    def drawForward(self, dist):
         pass
 
-    def setPixelColor(self, x, y, r, g, b):
-        pass
-
-    def writeFile(self, S):
-        pass
-
-    def errorManagement(self, f):   #not sure if this is necessary
-        pass
-
-    def setPenColor(self, c):   #C is a color, we could also use RGB
-        pass
-
-    def getPenColor(self):
-        pass
-
-    def drawLine(self, x1, y1, x2, y2):
-        pass
-
-    def drawLine(self, x, y):
-        pass
+    # Shape drawing methods
 
     def drawCircle(self, x, y, radius):
         pass
@@ -142,53 +224,11 @@ class Picture(object):
     def drawRectFill(self, x, y, w, h):
         pass
 
-    def drawPixel(self, x, y):
-        pass
-
-    def setPenUp(self): #not entirely sure what this is for
-        pass
-
-    def setPenDown(self):   #this either
-        pass
-
-    def isPenUp(self):
-        pass
-
-    def setX(self, x):
-        pass
-
-    def setY(self, y):
-        pass
-
-    def getX(self):
-        pass
-
-    def getY(self):
-        pass
-
-    def setPosition(self, x, y):
-        pass
-
-    def setDirection(self, d):
-        pass
-
-    def rotate(self, d):
-        pass
-
-    def getDirection(self):
-        pass
-
-    def drawForward(self, dist):
-        pass
-
     def fillPoly(self, X, Y, n):    #X and Y will probably have to be tuples
         pass
 
-    def setPenWidth(self, pWidth):
-        pass
-
-    def getPenWidth(self):
-        pass
+    # As before, since colors are just tuples, these methods don't seem
+    # necessary to me.  - I. H.
 
     def getPenRed(self):    #not sure if we need these
         pass
@@ -208,9 +248,6 @@ class Picture(object):
     def setPenBlue(self, b):
         pass
 
-    def setPenColor(self, r, g, b):
-        pass
+    # End unecessary methods.
 
     #the rest of the Picture class is for mouse movements, and key pressing
-
-    
