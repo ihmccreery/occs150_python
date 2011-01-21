@@ -53,7 +53,7 @@ class Picture(object):
         self.pen_xy = (0, 0)
         self.pen_width = 1.0
         # self.pen_Up = False # what does this do?
-        self.pen_direction = 0.0
+        self.pen_direction = 0.0 # in radians
         self.pen_color = (0, 0, 0)
 
         # self.im represents canvas
@@ -159,13 +159,12 @@ class Picture(object):
 
         # execute draw_line from 1 to 2
         # width is divided by 2 to correct for problem with PIL.
-        # should be changed when PIL 1.6 comes out
-        self.draw.line([xy1, xy2], color=self.get_pen_color(), width=self.get_pen_width()/2)
+        self.draw.line([xy1, xy2], fill=self.get_pen_color(), width=self.get_pen_width())
 
         # set attributes accordingly
         self.set_pen_xy(xy2)
 
-    def drawForward(self, dist, xy=None, color=None, width=None, direction=None):
+    def draw_forward(self, dist, xy=None, color=None, width=None, direction=None):
         """Draws a line from current position of length dist and at angle
         direction."""
 
@@ -174,14 +173,17 @@ class Picture(object):
         if xy:
             self.set_pen_xy(xy)
 
+        xy1 = self.get_pen_xy()
+
         # if no direction is given, set direction to current pen
         # direction
         if direction:
             self.set_pen_direction(direction)
 
-        xy2 = (xy[0], xy[1])
-        xy2[0] += dist * math.sin(self.pen_direction)
-        xy2[1] += dist * math.cos(self.pen_direction)
+        xy2 = (int(xy1[0] + dist * math.sin(self.get_pen_direction())),
+               int(xy1[1] + dist * math.cos(self.get_pen_direction())))
+
+        print xy2
 
         self.draw_line(xy, xy2, color, width)
 
