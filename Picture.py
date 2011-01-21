@@ -50,6 +50,7 @@ class Picture(object):
         # self.pen_Up = False # what does this do?
         self.pen_direction = 0.0 # in radians
         self.pen_color = (0, 0, 0)
+        self.fill_color = (0, 0, 0)
 
         # self.im represents canvas
         self.im = Image.new('RGB', size, bg_color)
@@ -119,6 +120,14 @@ class Picture(object):
 
     def get_pen_color(self):
         return self.pen_color
+
+    def set_fill_color(self, color):
+        """Sets thhe pen color. Takes the usual types of color args."""
+        color = ImageColor.getrgb(color) # converts to standard tuple
+        self.fill_color = color
+
+    def get_fill_color(self):
+        return self.fill_color
 
     # Direction
 
@@ -194,20 +203,48 @@ class Picture(object):
 
     # Shape drawing methods
 
-    def draw_circle(self, x, y, radius):
-        pass
+    def draw_ellipse(self, center, a, b=None, pen_color=None, fill=None):
+        """Draws an ellipse with center at center and radii of a
+        (horizontal) and b (vertical).
 
-    def draw_ellipse(self, x, y, minor, major):
-        pass
+        If no b radius is given, draws a circle."""
 
-    def draw_square(self, xy1, s):
-        pass
+        if not b:
+            b = a
 
-    def draw_rect(self, x, y, w, h):
-        pass
+        self._set_shape_colors(pen_color, fill)
+
+        xy1 = (center[0] - a, center[1] - b)
+        xy2 = (center[0] + a, center[1] + b)
+
+        self.draw.ellipse([xy1, xy2], outline=self.get_pen_color(), fill=self.get_fill_color())
+
+    def draw_rect(self, xy, x_side, y_side=None, pen_color=None, fill=None):
+        """Draws a rectangle with top-right corner at xy and sides of
+        x_side (horizontal) and y_side (vertical).
+
+        If no y is given, draws a square."""
+
+        if not y_side:
+            y_side = x_side
+
+        self._set_shape_colors(pen_color, fill)
+
+        xy1 = xy
+        xy2 = (xy1[0] + x_side, xy1[1] + y_side)
+
+        self.draw.rectangle([xy1, xy2], outline=self.get_pen_color(), fill=self.get_fill_color())
 
     def draw_poly(self, X, Y, n): #X and Y will probably have to be tuples
         pass
+
+    def _set_shape_colors(self, pen_color, fill):
+        if pen_color:
+            self.set_pen_color(pen_color)
+
+        if fill:
+            self.set_fill(fill)
+
 
     #the rest of the Picture class is for mouse movements, and key pressing
 
