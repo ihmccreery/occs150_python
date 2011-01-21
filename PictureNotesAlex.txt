@@ -1,0 +1,7 @@
+PictureNotesAlex
+
+1-20-11
+
+The way you were setting colors didn't work because you can't say color[0] = r, in other words, tuples don't accept assignments (which is the error I got when running my client). I changed it to make a new tuple using the new color combined with the tuple of the old one, as you can see. 
+
+Python doesn't seem to be able to support multiple methods with the same name but different arguments. This is a problem in the setPenColor method, which in the original class can take either a Color (in string format) or an RGB value. I suppose we will just have people input their RGB values as "rgb(r, g, b)" so we can have the penColor stay a String, which is consistent with the color formatting from earlier. 

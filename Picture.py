@@ -25,27 +25,27 @@ class Picture(object):
 
     all color arguments support the following color formats:
 
-       -Hexadecimal color specifiers, given as "#rgb" or "#rrggbb". For
-        example, "#ff0000" specifies pure red.
+    -Hexadecimal color specifiers, given as "#rgb" or "#rrggbb". For
+    example, "#ff0000" specifies pure red.
 
-       -RGB functions, given as "rgb(red, green, blue)" where the colour
-        values are integers in the range 0 to 255. Alternatively, the
-        color values can be given as three percentages (0% to 100%). For
-        example, "rgb(255,0,0)" and "rgb(100%,0%,0%)" both specify pure
-        red.
+    -RGB functions, given as "rgb(red, green, blue)" where the colour
+    values are integers in the range 0 to 255. Alternatively, the
+    color values can be given as three percentages (0% to 100%). For
+    example, "rgb(255,0,0)" and "rgb(100%,0%,0%)" both specify pure
+    red.
 
-       -Hue-Saturation-Lightness (HSL) functions, given as "hsl(hue,
-        saturation%, lightness%)" where hue is the colour given as an
-        angle between 0 and 360 (red=0, green=120, blue=240), saturation
-        is a value between 0% and 100% (gray=0%, full color=100%), and
-        lightness is a value between 0% and 100% (black=0%, normal=50%,
-        white=100%). For example, "hsl(0,100%,50%)" is pure red.
+    -Hue-Saturation-Lightness (HSL) functions, given as "hsl(hue,
+    saturation%, lightness%)" where hue is the colour given as an
+    angle between 0 and 360 (red=0, green=120, blue=240), saturation
+    is a value between 0% and 100% (gray=0%, full color=100%), and
+    lightness is a value between 0% and 100% (black=0%, normal=50%,
+    white=100%). For example, "hsl(0,100%,50%)" is pure red.
 
-       -Common HTML colour names. The ImageDraw provides some 140 standard
-        colour names, based on the colors supported by the X Window system
-        and most web browsers. Colour names are case insensitive, and may
-        contain whitespace. For example, "red" and "Red" both specify pure
-        red.
+    -Common HTML colour names. The ImageDraw provides some 140 standard
+    colour names, based on the colors supported by the X Window system
+    and most web browsers. Colour names are case insensitive, and may
+    contain whitespace. For example, "red" and "Red" both specify pure
+    red.
     """
 
     def __init__(self, size, bg_color='white'):
@@ -63,7 +63,7 @@ class Picture(object):
         self.draw = ImageDraw.Draw(self.im)
 
     def write_file(self, name):
-        """Saves to a file.  name is a string."""
+        """Saves to a file. name is a string."""
         self.im.save(name)
 
     def show(self):
@@ -83,7 +83,7 @@ class Picture(object):
 
 
     # The following methods' implimentations are slightly different
-    # because of Python's tuple capabilities.  Rather than taking a
+    # because of Python's tuple capabilities. Rather than taking a
     # separate argument for each value, they are taken and returned as
     # tuples.
 
@@ -99,12 +99,13 @@ class Picture(object):
         """Sets the pixel color of given pixel in the form (r, g, b)
         where r, g, and b are integers (0-255)."""
         self.im.putpixel(xy, color)
+        self.im.setpixel(xy, color)
 
 
     # Pen methods
 
     def set_pen_xy(self, xy):
-        """Sets pen position to xy.  xy is a tuple of two ints"""
+        """Sets pen position to xy. xy is a tuple of two ints"""
         # perhaps we should assert more restrictions here?
         self.pen_xy = xy
 
@@ -113,7 +114,7 @@ class Picture(object):
         return self.pen_xy
 
     def set_pen_color(self, color):
-        """Sets the pen color.  Takes the usual types of color args."""
+        """Sets the pen color. Takes the usual types of color args."""
         color = ImageColor.getrgb(color) # converts to standard tuple
         self.pen_color = color
 
@@ -208,7 +209,8 @@ class Picture(object):
     def drawRectFill(self, x, y, w, h):
         pass
 
-    def fillPoly(self, X, Y, n):    #X and Y will probably have to be tuples
+    def fillPoly(self, X, Y, n): #X and Y will probably have to be tuples
         pass
 
     #the rest of the Picture class is for mouse movements, and key pressing
+
