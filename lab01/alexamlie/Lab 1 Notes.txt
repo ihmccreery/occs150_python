@@ -1,1 +1,0 @@
-Lab 1:Both of the assignments for this lab are fairly straightforward. The ‘greetings’ assignment is especially easy as Python seems to not require any importing to get user input. I included a simple if statement with my program—I did this because Bob Geitz’s notes include an if statement in the program that is very similar to this one.

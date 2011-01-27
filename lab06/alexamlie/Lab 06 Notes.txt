@@ -1,5 +1,0 @@
-Lab 06 notes
-
-Match -- This shows Python's built-in file reading capabilities. It is also noteworthy that when you read a file, you have to remember to strip the \n at the end of each line, otherwise your string will have a \n in it. Otherwise, this was basically the same as the Java solution to this lab. 
-
-Game of Life -- I haven't started on this yet. 

@@ -115,7 +115,8 @@ class Picture(object):
 
     def set_pen_color(self, color):
         """Sets the pen color. Takes the usual types of color args."""
-        color = ImageColor.getrgb(color) # converts to standard tuple
+        if type(color) == str:
+            color = ImageColor.getrgb(color) # converts to standard tuple
         self.pen_color = color
 
     def get_pen_color(self):
@@ -123,7 +124,8 @@ class Picture(object):
 
     def set_fill_color(self, color):
         """Sets thhe pen color. Takes the usual types of color args."""
-        color = ImageColor.getrgb(color) # converts to standard tuple
+        if type(color) == str:
+            color = ImageColor.getrgb(color) # converts to standard tuple
         self.fill_color = color
 
     def get_fill_color(self):
@@ -156,7 +158,8 @@ class Picture(object):
     def draw_line(self, xy1, xy2=None, color=None, width=None):
         """Draws a line from xy1 to xy2, or from current pen position to
         xy1 if no xy2 is given, and sets pen position to ending point and
-        sets pen color to color"""
+        sets pen color to color
+        """
 
         # if no xy2 is given, orient so line will be drawn from current
         # position
@@ -181,7 +184,8 @@ class Picture(object):
 
     def draw_forward(self, dist, xy=None, color=None, width=None, direction=None):
         """Draws a line from current position of length dist and at angle
-        direction."""
+        direction.
+        """
 
         # if no xy is given, orient so line will be drawn from current
         # position
@@ -207,7 +211,8 @@ class Picture(object):
         """Draws an ellipse with center at center and radii of a
         (horizontal) and b (vertical).
 
-        If no b radius is given, draws a circle."""
+        If no b radius is given, draws a circle.
+        """
 
         if not b:
             b = a
@@ -219,11 +224,13 @@ class Picture(object):
 
         self.draw.ellipse([xy1, xy2], outline=self.get_pen_color(), fill=self.get_fill_color())
 
-    def draw_rect(self, xy, x_side, y_side=None, pen_color=None, fill=None):
+    def draw_rect(self, xy, x_side, y_side=None,
+                  pen_color=None, fill=None):
         """Draws a rectangle with top-right corner at xy and sides of
         x_side (horizontal) and y_side (vertical).
 
-        If no y is given, draws a square."""
+        If no y is given, draws a square.
+        """
 
         if not y_side:
             y_side = x_side
@@ -235,16 +242,18 @@ class Picture(object):
 
         self.draw.rectangle([xy1, xy2], outline=self.get_pen_color(), fill=self.get_fill_color())
 
-    def draw_poly(self, X, Y, n): #X and Y will probably have to be tuples
-        pass
+    def draw_poly(self, xy, pen_color=None, fill=None):
+        """Draws a polygon with coordinates defined in xy (a list) and
+        options as above.
+        """
+
+        self._set_shape_colors(pen_color, fill)
+
+        self.draw.polygon(xy, outline=self.get_pen_color(), fill=self.get_fill_color())
 
     def _set_shape_colors(self, pen_color, fill):
-        if pen_color:
+        if pen_color != None:
             self.set_pen_color(pen_color)
 
-        if fill:
-            self.set_fill(fill)
-
-
-    #the rest of the Picture class is for mouse movements, and key pressing
-
+        if fill != None:
+            self.set_fill_color(fill)
