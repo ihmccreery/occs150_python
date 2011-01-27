@@ -1,7 +1,7 @@
 # stacker.py
 #
 # I. H. McCreery
-# 10 January 2010
+# 27 January 2010
 
 def main():
     """Draws a stack of some number of boxes as specified by the user."""

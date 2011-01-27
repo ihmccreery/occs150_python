@@ -1,7 +1,7 @@
 # primes.py
 #
 # I. H. McCreery
-# 10 January 2010
+# 27 January 2010
 
 import math
 
