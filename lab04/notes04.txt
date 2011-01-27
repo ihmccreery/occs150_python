@@ -1,0 +1,19 @@
+notes04.txt
+Notes for moving Lab 04 from Java to Python 2.6
+
+I. H. McCreery
+27 January 2010
+
+Stacker:
+
+print_symbols probably isn't a good method example becuase python allows string multiplication (see stacker.py).
+
+
+Primes:
+
+it's not too hard to have students also print out the twin primes themselves.  See primes.py.
+
+
+Mastermind:
+
+Since strings are immutable in Python (s[2] = x doesn't work), I suggest using a list of values rather than a string of characters for the codes.  This can also provide practice for list mapping.  Alternatively, just the clue method could convert the string to a list.
