@@ -12,7 +12,8 @@ directory.
 """
 
 import math
-from PIL import Image, ImageColor, ImageDraw
+from PIL import Image, ImageColor, ImageDraw, ImageTk
+from Tkinter import Tk, Label
 
 class Picture(object):
     """A picture object
@@ -58,6 +59,24 @@ class Picture(object):
         # self.draw represents drawing capabilities
         self.draw = ImageDraw.Draw(self.im)
 
+        # self.root is the Tk instance for displaying image
+        self.root = Tk()
+
+        # self.imagetk represents a PhotoImage instance for use with
+        # Tkinter.  Must come after instantiation of self.root or will
+        # throw
+        # RuntimeError, 'Too early to create image'
+        self.imagetk = ImageTk.PhotoImage(self.im)
+
+        # self.label is the Tk label widget for displaying image
+        self.label = Label(self.root, image=self.imagetk, borderwidth=0)
+        self.label.pack()
+
+    def _update_label(self):
+        """Private method for building or updating tkimage instance."""
+        self.imagetk = ImageTk.PhotoImage(self.im)
+        self.label.config(image=self.imagetk)
+
     def write_file(self, name):
         """Saves to a file. name is a string."""
         self.im.save(name)
@@ -65,6 +84,11 @@ class Picture(object):
     def show(self):
         """Shows image in default external editor."""
         self.im.show()
+
+    def display(self):
+        """Displays image using Tkinter label widget."""
+        self._update_label()
+        self.root.mainloop()
 
     def close(self):
         # This is probably something we'll need to impliment in Tkinter
