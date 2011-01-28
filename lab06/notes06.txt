@@ -1,0 +1,13 @@
+notes06.txt
+Notes for moving Lab 06 from Java to Python 2.6
+
+I. H. McCreery
+28 January 2010
+
+Match:
+
+Seems straightforward enough.  Filehandling (especially with the 'for line in file' syntax) seems much easier in Python than in Java.
+
+Game of Life:
+
+No picture class yet, but will attempt anyway.
