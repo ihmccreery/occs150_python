@@ -86,7 +86,7 @@ class Picture(object):
         self.im.show()
 
     def display(self):
-        """Displays image using Tkinter label widget."""
+        """Displays image using Tkinter label widget. BROKEN"""
         self._update_label()
         self.root.mainloop()
 
