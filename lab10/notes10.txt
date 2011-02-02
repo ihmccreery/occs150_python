@@ -1,0 +1,18 @@
+notes10.txt
+Notes for moving Lab 1 0from Java to Python 2.6
+
+I. H. McCreery
+2 February 2010
+
+critter.py
+
+Can't figure out why I can't get Python's abc module working.  I get the error:
+
+Traceback (most recent call last):
+  File "critter_test.py", line 3, in <module>
+    s = Stone()
+TypeError: __new__() takes exactly 4 arguments (1 given)
+
+Posted on StackOverflow, we'll see if anyone knows what's up.
+
+Perhaps I should make the constants into objects themselves, rather than passing
