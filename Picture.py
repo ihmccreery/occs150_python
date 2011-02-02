@@ -13,7 +13,8 @@ directory.
 
 import math
 from PIL import Image, ImageColor, ImageDraw, ImageTk
-from Tkinter import Tk, Label
+import Tkinter
+import threading
 
 class Picture(object):
     """A picture object
@@ -59,36 +60,16 @@ class Picture(object):
         # self.draw represents drawing capabilities
         self.draw = ImageDraw.Draw(self.im)
 
-        # self.root is the Tk instance for displaying image
-        self.root = Tk()
-
-        # self.imagetk represents a PhotoImage instance for use with
-        # Tkinter.  Must come after instantiation of self.root or will
-        # throw
-        # RuntimeError, 'Too early to create image'
-        self.imagetk = ImageTk.PhotoImage(self.im)
-
-        # self.label is the Tk label widget for displaying image
-        self.label = Label(self.root, image=self.imagetk, borderwidth=0)
-        self.label.pack()
-
-    def _update_label(self):
-        """Private method for building or updating tkimage instance."""
-        self.imagetk = ImageTk.PhotoImage(self.im)
-        self.label.config(image=self.imagetk)
+        self.imtk = PictureTk(self.im)
+        self.imtk.start()
 
     def write_file(self, name):
         """Saves to a file. name is a string."""
         self.im.save(name)
 
     def show(self):
-        """Shows image in default external editor."""
+        """Shows image in default external viewer."""
         self.im.show()
-
-    def display(self):
-        """Displays image using Tkinter label widget. BROKEN"""
-        self._update_label()
-        self.root.mainloop()
 
     def close(self):
         # This is probably something we'll need to impliment in Tkinter
@@ -102,8 +83,8 @@ class Picture(object):
         return self.im.size
 
 
-    # The following methods' implimentations are slightly different
-    # because of Python's tuple capabilities. Rather than taking a
+    # The following methods' implimentations are slightly different than
+    # Java because of Python's tuple capabilities. Rather than taking a
     # separate argument for each value, they are taken and returned as
     # tuples.
 
@@ -281,3 +262,15 @@ class Picture(object):
 
         if fill != None:
             self.set_fill_color(fill)
+
+class PictureTk(threading.Thread):
+
+    def __init__(self, im):
+        threading.Thread.__init__(self)
+        self.root = Tkinter.Tk()
+        self.label = Tkinter.Label(self.root,
+                                   borderwidth=0)
+        self.label.pack()
+
+    def run(self):
+        self.root.wait_variable(self.label)
