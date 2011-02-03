@@ -6,13 +6,11 @@ I. H. McCreery
 
 critter.py
 
-Can't figure out why I can't get Python's abc module working.  I get the error:
+Got the abstract class thing working.  See Critter/critter.py.
 
-Traceback (most recent call last):
-  File "critter_test.py", line 3, in <module>
-    s = Stone()
-TypeError: __new__() takes exactly 4 arguments (1 given)
+I'm not making __init__() or fight_over() methods abstract methods, so if a subclass doesn't want to impliment them, that's fine.
 
-Posted on StackOverflow, we'll see if anyone knows what's up.
+However, if the subclass does impliment __init__(), it MUST call super(subclass, self).__init__(x, y) in order to properly work.
+Alternatively, I could write in a seperate init method which, if implimented by the subclass, wouldn't overwrite the __init__, but instead would be called by Critter.__init__().
 
-Perhaps I should make the constants into objects themselves, rather than passing
+Perhaps I should make the constants into objects themselves, rather than passing around ints. . . more on that.
