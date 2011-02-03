@@ -23,3 +23,10 @@ CENTER = (0, 0)
 ROAR = 0
 POUNCE = 1
 SCRATCH = 2
+
+def main():
+    """The main method for the critter lab.
+
+    This creates a GUI for the user to run the simulations.
+    """
+    # unclear to me right now how to include the critters necessary
