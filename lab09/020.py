@@ -1,7 +1,7 @@
 # 020.py
 #
 # I. H. McCreery
-# 28 January 2010
+# 28 January 2011
 """A program to solve Project Euler problem 20"""
 
 import math
