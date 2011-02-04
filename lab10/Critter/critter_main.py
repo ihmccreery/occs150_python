@@ -43,7 +43,9 @@ def main():
     application = Tkinter.Tk()
     application.title(TITLE)
 
-    world = World(WORLD_WIDTH, WORLD_HEIGHT, [])
+    critter_list = []
+
+    world = World(WORLD_WIDTH, WORLD_HEIGHT, critter_list)
     # window = MainWindow(application, world)
     # application.mainloop()
 
@@ -105,7 +107,7 @@ class MainWindow(Tkinter.Frame):
 
     def reset_game(self):
         """Sets or resets the game to start over."""
-        pass
+        self.world.reset()
 
     def go(self):
         """Plays the game."""
@@ -116,7 +118,7 @@ class MainWindow(Tkinter.Frame):
         self.state = False
 
     def reset(self):
-        """Resets the game to beginning."""
+        """Resets the game to beginning: repopulates critters, resets scores"""
         self.turn = 0
 
 
@@ -131,13 +133,16 @@ class World(object):
 
         self._grid = Grid(width, height, default=[])
 
-        self.populate(critter_list)
+        self.reset()
 
     def populate(self, critter_list):
         pass
 
     def turn(self):
         pass
+
+    def reset(self):
+        """Resets the world to a new simulation."""
 
 
 class Grid(object):

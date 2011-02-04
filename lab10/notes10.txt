@@ -14,3 +14,5 @@ However, if the subclass does impliment __init__(), it MUST call super(subclass,
 Alternatively, I could write in a seperate init method which, if implimented by the subclass, wouldn't overwrite the __init__, but instead would be called by Critter.__init__().
 
 Perhaps I should make the constants into objects themselves, rather than passing around ints. . . more on that.
+
+For some reason, haven't gotten the super() call to Frame (I assume Tkinter.Frame isn't a new-style class that inherets object).
