@@ -4,5 +4,6 @@
 # 2 February 2011
 """The initializer for the Critter package."""
 
-from critter import *
-from critter_main import *
+from critter import Critter
+from world import World
+from main_window import Main_Window
