@@ -12,11 +12,9 @@ class Critter(object):
 
     # methods for students to overwrite
 
-    def __init__(self, x, y):
+    def __init__(self):
         """Initializer"""
         super(Critter, self).__init__()
-        self.x = x
-        self.y = y
 
     @abc.abstractmethod
     def move(self):

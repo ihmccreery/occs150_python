@@ -9,34 +9,18 @@ Where <Critter1>, etc. is the capitalized name of critters
 """
 import sys
 import Tkinter
-import collections
 import Critter
 
+# creates list of critter classes from arguments in script call
+# executes necessary imports, throws error if bad call.
 CRITTER_LIST = []
-
 for Critter_Name in sys.argv[1:]:
-    CRITTER_LIST.append(Critter_Name)
-
-# directional constants
-# tuples in the form (delta_x, delta_y)
-# note that north is down, like in standard image representation
-
-Location = collections.namedtuple('Location', 'x y')
-
-NORTH = Location(0, -1)
-NORTHEAST = Location(1, -1)
-EAST = Location(1, 0)
-SOUTHEAST = Location(1, 1)
-SOUTH = Location(0, 1)
-WEST = Location(-1, 0)
-CENTER = Location(0, 0)
+    critter_name = str.lower(Critter_Name)
+    exec "from "+critter_name+" import "+Critter_Name
+    exec "CRITTER_LIST.append({0})".format(Critter_Name)
 
 # fighting constants
 # not sure how to represent these still. . .
-
-ROAR = 0
-POUNCE = 1
-SCRATCH = 2
 
 TITLE = 'Critter Main'
 
@@ -45,7 +29,7 @@ WORLD_HEIGHT = 50
 
 def main():
     """The main method for the critter lab."""
-    # unclear to me right now how to include the critters necessary
+
     application = Tkinter.Tk()
     application.title(TITLE)
 

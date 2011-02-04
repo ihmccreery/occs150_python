@@ -8,9 +8,9 @@ from Critter import *
 class Stone(Critter):
     """A class to impliment a Stone critter"""
 
-    def __init__(self, x, y):
+    def __init__(self):
         """The initializer"""
-        super(Stone, self).__init__(x, y)
+        super(Stone, self).__init__()
         pass
 
     def move(self):

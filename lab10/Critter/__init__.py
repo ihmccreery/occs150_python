@@ -7,3 +7,5 @@
 from critter import Critter
 from world import World
 from main_window import Main_Window
+from directions import NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST, CENTER
+from attacks import ROAR, POUNCE, SCRATCH

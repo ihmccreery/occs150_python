@@ -8,9 +8,9 @@ from Critter import *
 class Mouse(Critter):
     """A class to impliment a Stone critter"""
 
-    def __init__(self, x, y):
+    def __init__(self):
         """The initializer"""
-        super(type(self), self).__init__(x, y)
+        super(type(self), self).__init__()
         self.last_dir = SOUTH
         self._color = (255, 255, 255)
 
